@@ -2,7 +2,7 @@ import {createContext, useEffect} from "react";
 import {useReducer} from "react";
 import {getCurrentWeatherByCity, getWeatherForecastByCity} from "../../services/weather/weatherService.jsx";
 
-const WeatherContext = createContext(null);
+export const WeatherContext = createContext(null);
 
 const initialState = {
     city: "Minsk",
