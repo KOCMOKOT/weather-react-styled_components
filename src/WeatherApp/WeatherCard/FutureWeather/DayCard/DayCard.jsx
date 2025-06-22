@@ -8,7 +8,16 @@ import {useWeatherForecastDataByDay} from "../../../../context/weather/useWeathe
 import getWeekDayName from "../../../../utils/dateUtils.jsx";
 
 export default function DayCard({dayNumber}) {
-    const {temp, weatherIcon, time} = useWeatherForecastDataByDay(dayNumber);
+    const {isLoading, data} = useWeatherForecastDataByDay(dayNumber);
+    if (isLoading) {
+        return (
+            <DayCard__Card>
+                <p>Loading...</p>
+            </DayCard__Card>
+        );
+    }
+
+    const {temp, weatherIcon, time} = data;
     return (
         <DayCard__Card>
             <DayCard__DayName>{getWeekDayName(time * 1000)}</DayCard__DayName>

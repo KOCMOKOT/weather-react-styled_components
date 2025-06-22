@@ -6,7 +6,17 @@ import {
 import {useCurrentWeatherData} from "../../../context/weather/useWeatherData.jsx";
 
 export default function TodayWeather() {
-    const {temp, weatherName} = useCurrentWeatherData();
+    const {isLoading, data} = useCurrentWeatherData();
+
+    if (isLoading) {
+        return (
+            <TodayWeather__Container>
+                <p>Loading...</p>
+            </TodayWeather__Container>
+        )
+    }
+
+    const {temp, weatherName} = data;
     return (
         <TodayWeather__Container>
             <TodayWeather__Temperature>{temp + "°C"}</TodayWeather__Temperature>

@@ -15,6 +15,7 @@ export const WeatherApp__Container = styled.div`
             case 'Rain': return '#87CEEB';
             case 'Snow': return '#E0F7FA';
             case 'Clouds': return '#B0BEC5';
+            case 'Loading': return '#FFD700';
             default: return '#FFF';
         }
     }};

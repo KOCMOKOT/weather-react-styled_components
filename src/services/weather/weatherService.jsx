@@ -8,8 +8,10 @@ export async function getWeatherByCity(fetchFn, city) {
     return await fetchFn(location.lat, location.lon);
 }
 
-export const getCurrentWeatherByCity = (city) =>
-    getWeatherByCity(fetchCurrentWeatherByCoordinates, city);
+export async function getCurrentWeatherByCity(city){
+    return await getWeatherByCity(fetchCurrentWeatherByCoordinates, city);
+}
 
-export const getWeatherForecastByCity = (city) =>
-    getWeatherByCity(fetchWeatherForecastByCoordinates, city);
+export async function getWeatherForecastByCity(city) {
+    return await getWeatherByCity(fetchWeatherForecastByCoordinates, city);
+}

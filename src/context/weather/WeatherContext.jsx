@@ -5,19 +5,22 @@ import {getCurrentWeatherByCity, getWeatherForecastByCity} from "../../services/
 export const WeatherContext = createContext(null);
 
 const initialState = {
-    city: "Minsk",
+    city: null,
     weatherData: {
-        current: await getCurrentWeatherByCity("Minsk"),
-        forecast: await getWeatherForecastByCity("Minsk"),
-    }
+        current: null,
+        forecast: null,
+    },
+    error: null,
 }
 
 function weatherReducer(state, action) {
     switch (action.type) {
         case "SET_CITY":
-            return { ...state, city: action.payload};
+            return { ...state, city: action.payload, error: null };
         case "SET_WEATHER":
             return { ...state, weatherData: action.payload };
+        case "SET_ERROR":
+            return { ...state, error: action.payload };
         default:
             return state;
     }
@@ -26,16 +29,28 @@ function weatherReducer(state, action) {
 export function WeatherProvider({ children }) {
     const [state, dispatch] = useReducer(weatherReducer, initialState);
 
+    // City initialization
     useEffect(() => {
+        if (!state.city) {
+            dispatch({ type: "SET_CITY", payload: "Minsk" });
+        }
+    }, [state.city]);
+
+    // Change city effect
+    useEffect(() => {
+        if (!state.city) return;
+
         const fetchWeather = async () => {
-            const current = await getCurrentWeatherByCity(state.city);
-            const forecast = await getWeatherForecastByCity(state.city);
-            dispatch({type: "SET_WEATHER", payload: {current, forecast}});
+            try {
+                const current = await getCurrentWeatherByCity(state.city);
+                const forecast = await getWeatherForecastByCity(state.city);
+                dispatch({type: "SET_WEATHER", payload: {current, forecast}});
+            } catch (e) {
+                dispatch({type: "SET_ERROR", payload: "Cant find city or net error"})
+            }
         };
 
-        fetchWeather().catch((error) => {
-            console.error("WeatherProvider error: ", error);
-        });
+        fetchWeather();
     }, [state.city]);
 
     return (

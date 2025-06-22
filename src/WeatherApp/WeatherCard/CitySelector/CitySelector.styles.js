@@ -12,7 +12,8 @@ export const CitySelector__Container = styled.div`
     border-radius: 8px;
 `
 
-export const CitySelector__Label = styled.label`
+export const CitySelector__Input = styled.input`
+    text-align: center;
     font-weight: bold;
     font-size: 2rem;
     flex-grow: 1;
